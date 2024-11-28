@@ -44,6 +44,6 @@ def send_message():
 def start_sheduler():
     scheduler = BackgroundScheduler()
     if not scheduler.get_jobs():
-        scheduler.add_job(send_message, 'interval', seconds=10)
+        scheduler.add_job(send_message, 'interval', days=1)
     if not scheduler.running:
         scheduler.start()
