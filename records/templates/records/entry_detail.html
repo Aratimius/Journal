@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load tailwind_filters %}
+{% block content %}
+</div>
+</div>
+</nav>
+</header>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+  background: url(/media/greenwood.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+</style>
+<div class="album py-5 bg-body-tertiary">
+    <div class="col-12">
+        <div class="container ">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h3 class="font-bold mb-8">{{ object.title}}</h3>
+                            <p class="card-text">{{ object.description }}</p>
+                            <p class="card-text">начало: {{object.start_time}} </p>
+                            <p class="card-text">конец: {{object.end_time}}</p>
+                            <p class="card-text">статус: {{object.status}}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="row">
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:update' object.pk %}">Редактировать</a>
+                                    {% if object.is_private %}
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:private_list' %}">Назад</a>
+                                    {% elif object.status == 'PAST'%}
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:past_list' %}">Назад</a>
+                                    {% elif object.status == 'PRESENT'%}
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:present_list' %}">Назад</a>
+                                    {% elif object.status == 'FUTURE'%}
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:future_list' %}">Назад</a>
+                                    {% else %}
+                                    <a class="btn text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:list' %}">Назад</a>
+                                    {% endif %}
+
+                                    <a class="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                       href="{% url 'records:delete' object.pk %}">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            {% for objective in objectives %}
+                            {% if objective.is_complete %}
+                            <p><a class="icon-link icon-link-hover link-success link-underline-success link-underline-opacity-25"
+                               href="{% url 'records:update_obj' objective.pk %}">
+                                {{objective.title}}
+                            </a>: {{objective.description}}</p>
+                            {% else %}
+                             <p><a class="icon-link icon-link-hover link-warning link-underline-success link-underline-opacity-25"
+                               href="{% url 'records:update_obj' objective.pk %}">
+                                {{objective.title}}
+                            </a>: {{objective.description}}</p>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

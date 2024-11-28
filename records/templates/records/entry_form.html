@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load tailwind_filters %}
+{% block content %}
+</div>
+</div>
+</nav>
+</header>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+  background: url(/media/greenwood.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+</style>
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body ">
+                    <h4 class="font-bold mb-8">Создание записи</h4>
+
+                    {% csrf_token %}
+                    {% crispy form %}
+                    {% if object.pk %}
+                    <a class="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                       href="{% url 'records:detail' object.pk %}">Назад
+                    </a>
+                    {% else %}
+                    <a class="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                       href="{% url 'records:list' %}">Отмена
+                    </a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% if object.pk and object.is_purpose %}
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="font-bold mb-8">Задачи</h4>
+                </div>
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                <div class="card-body ">
+                    {% crispy form %}
+                    <a class="btn text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                       href="{% url 'records:update_obj' form.instance.pk %}">Редактировать</a>
+                    <a class="btn text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                       href="{% url 'records:delete_obj' form.instance.pk %}">Удалить
+                    </a>
+                </div>
+                {% endfor %}
+                <a class="bnt text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+               href="{% url 'records:create_obj' %}">Добавить задачу</a>
+
+            </div>
+
+
+        </div>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}

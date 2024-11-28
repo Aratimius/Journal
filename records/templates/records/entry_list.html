@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'records/includes/inc_menu.html' %}
+<div class="container marketing">
+    <!-- Текст под каруселью -->
+    <div class="row">
+        {% for object in object_list %}
+        <div class="col-lg-4">
+            <a class="link text-dark" role="button" href="{% url 'records:detail' object.pk %}">
+                {% if object.is_private %}
+                <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                     src="/media/lock.jpeg"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777"/>
+                </img>
+                {% elif object.status == 'PAST'%}
+                <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                     src="/media/ok.png" role="img" aria-label="Placeholder: 140x140"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777"/>
+                </img>
+                {% elif object.status == 'PRESENT'%}
+                <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                     src="/media/present.png" role="img" aria-label="Placeholder: 140x140"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777"/>
+                </img>
+                {% elif object.status == 'FUTURE'%}
+                <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                     src="/media/future.png" role="img" aria-label="Placeholder: 140x140"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777"/>
+                </img>
+                {% else %}
+                <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                     src="/media/entry.png" role="img" aria-label="Placeholder: 140x140"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777"/>
+                </img>
+                {% endif %}
+                <h2>{{object.title}}</h2>
+            </a>
+        </div><!-- /.col-lg-4 -->
+        {% endfor %}
+    </div><!-- /.row -->
+</div><!-- /.container -->
+{% endblock %}
